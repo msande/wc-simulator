@@ -23,6 +23,7 @@ data class Player(
     val age: Int,
     val position: Position,
     val clubId: Int,
+    val countryId: Int = 0,
     val ratings: Ratings,
     val clubStats: StatLine = StatLine(),
     val wcStats: StatLine = StatLine(),
