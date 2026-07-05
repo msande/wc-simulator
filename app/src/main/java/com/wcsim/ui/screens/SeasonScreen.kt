@@ -41,55 +41,54 @@ fun SeasonScreen(vm: GameViewModel, nav: NavHostController) {
                 onClick = { nav.popBackStack() },
                 modifier = Modifier.fillMaxWidth(),
             ) { Text("Back") }
-            return
-        }
-
-        val q = outcome.qualification
-        val lines = buildList {
-            add(
-                "Qualification: ${q.wins}W-${q.draws}D-${q.losses}L — " +
-                    if (q.qualified) "QUALIFIED" else "DID NOT QUALIFY",
-            )
-            add("Board expectation: ${outcome.expectation.name}")
-            outcome.yourStage?.let { add("World Cup stage reached: ${it.name}") }
-            outcome.worldCup?.let { add("World Cup champion: ${it.champion}") }
-            add(if (outcome.fired) "Board verdict: SACKED" else "Board verdict: retained")
-            add("Salary earned: ${outcome.salaryEarned}")
-            add("")
-            addAll(outcome.narrative)
-            outcome.worldCup?.let { wc ->
-                if (wc.knockoutResults.isNotEmpty()) {
-                    add("")
-                    add("— Knockout results —")
-                    wc.knockoutResults.forEach { add(it.scoreline) }
-                }
-            }
-        }
-
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(lines) { line ->
-                Text(
-                    text = line,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(vertical = 2.dp),
+        } else {
+            val q = outcome.qualification
+            val lines = buildList {
+                add(
+                    "Qualification: ${q.wins}W-${q.draws}D-${q.losses}L — " +
+                        if (q.qualified) "QUALIFIED" else "DID NOT QUALIFY",
                 )
-            }
-        }
-
-        Spacer(Modifier.height(8.dp))
-        Button(
-            onClick = {
-                if (careerOver) {
-                    nav.navigate(Routes.CAREER_END)
-                } else {
-                    nav.navigate(Routes.HUD) {
-                        popUpTo(Routes.HUD) { inclusive = true }
+                add("Board expectation: ${outcome.expectation.name}")
+                outcome.yourStage?.let { add("World Cup stage reached: ${it.name}") }
+                outcome.worldCup?.let { add("World Cup champion: ${it.champion}") }
+                add(if (outcome.fired) "Board verdict: SACKED" else "Board verdict: retained")
+                add("Salary earned: ${outcome.salaryEarned}")
+                add("")
+                addAll(outcome.narrative)
+                outcome.worldCup?.let { wc ->
+                    if (wc.knockoutResults.isNotEmpty()) {
+                        add("")
+                        add("— Knockout results —")
+                        wc.knockoutResults.forEach { add(it.scoreline) }
                     }
                 }
-            },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text("Continue")
+            }
+
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                items(lines) { line ->
+                    Text(
+                        text = line,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(vertical = 2.dp),
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(8.dp))
+            Button(
+                onClick = {
+                    if (careerOver) {
+                        nav.navigate(Routes.CAREER_END)
+                    } else {
+                        nav.navigate(Routes.HUD) {
+                            popUpTo(Routes.HUD) { inclusive = true }
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text("Continue")
+            }
         }
     }
 }
