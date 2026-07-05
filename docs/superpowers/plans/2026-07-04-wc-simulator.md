@@ -1454,11 +1454,13 @@ object Contracts {
     }
 
     /**
-     * When you push for more: high reputation + high roll -> +10%; else -> -10%.
+     * When you push for more: you succeed (and gain +10%) when your roll clears the
+     * board's resistance threshold, which shrinks as your reputation grows
+     * (threshold = 1 - reputation/100). Failure costs you 10%.
      * roll is a 0..1 random draw supplied by the caller (deterministic in tests).
      */
     fun pushOutcome(offer: Long, reputation: Int, roll: Double): Long {
-        val success = roll < (reputation / 100.0)
+        val success = roll > (1.0 - reputation / 100.0)
         return if (success) (offer * 1.10).toLong() else (offer * 0.90).toLong()
     }
 }
