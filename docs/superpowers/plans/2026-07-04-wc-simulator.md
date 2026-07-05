@@ -84,7 +84,12 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ```
+
+> Note: Kotlin 2.0+ requires the separate Compose Compiler Gradle plugin
+> (`org.jetbrains.kotlin.plugin.compose`) — `buildFeatures { compose = true }`
+> alone will not compile. It is added above and applied below.
 
 - [ ] **Step 4: Write root `build.gradle.kts`**
 
@@ -93,6 +98,7 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 ```
 
@@ -103,6 +109,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
